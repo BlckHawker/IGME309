@@ -97,10 +97,12 @@
   <ItemGroup>
     <ClCompile Include="Alberto.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Queue.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Alberto.h" />
     <ClInclude Include="Main.h" />
+    <ClInclude Include="Queue.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\res\ICON.rc" />

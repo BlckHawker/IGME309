@@ -1,22 +1,9 @@
-#include "Main.h"
-using namespace std;
-
-//returns the current attributes
-WORD GetConsoleTextAttribute(HANDLE hCon)
+﻿#include "Main.h"
+int main()
 {
-	CONSOLE_SCREEN_BUFFER_INFO con_info;
-	GetConsoleScreenBufferInfo(hCon, &con_info);
-	return con_info.wAttributes;
-}
-
-int main(void)
-{
-	HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
-	const int saved_colors = GetConsoleTextAttribute(hConsole);
-
-	SetConsoleTextAttribute(hConsole, FOREGROUND_RED | FOREGROUND_INTENSITY);
-	cout << "Hello World!" << endl;
-	SetConsoleTextAttribute(hConsole, saved_colors);
-
+	std::cout << "Hello World\n";
+	//Ending the program
+	std::cout << "Press enter to finish";
 	getchar();
-}
+	return 0;
+}
