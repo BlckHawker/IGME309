@@ -57,14 +57,27 @@ int main(void)
 
 	Queue<int> intQueue = Queue<int>();
 	
-	//Push elements
-	intQueue.push(0);
-	std::cout << "	just pushed +++++" << std::endl;
+	//Push elements	
 	intQueue.push(1);
-	
 	std::cout << "	just pushed +++++" << std::endl;
+	intQueue.print();
 
 	intQueue.push(2);
+	std::cout << "	just pushed +++++" << std::endl;
+	intQueue.print();
+
+
+	intQueue.push(4);
+	std::cout << "	just pushed +++++" << std::endl;
+	intQueue.print();
+
+
+	intQueue.push(3);
+	std::cout << "	just pushed +++++" << std::endl;
+	intQueue.print();
+
+
+	intQueue.push(0);
 	std::cout << "	just pushed +++++" << std::endl;
 
 	//Print queue

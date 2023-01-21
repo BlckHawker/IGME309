@@ -81,8 +81,6 @@ template <typename T> class Queue
 		//destructor
 		~Queue()
 		{
-			elementNum = 0;
-
 			if (head != nullptr)
 			{
 				Node<T>* currentHead = head;
@@ -97,6 +95,8 @@ template <typename T> class Queue
 
 				delete currentHead;
 			}
+
+			elementNum = 0;
 		}
 
 		//push
@@ -106,6 +106,7 @@ template <typename T> class Queue
 			{
 				head = new Node<T>(item);
 				tail = head;
+				elementNum++;
 				return;
 			}
 
@@ -113,17 +114,43 @@ template <typename T> class Queue
 			Node<T>* currentNode = head;
 			Node<T>* nextNode = currentNode->getNext();
 
+			float currentValue = currentNode->getValue();
+			float itemValue = getValue(item);
+			float nextValue;
 
-			while (currentNode->getNext() == NULL || currentNode->getValue() > nextNode->getValue())
+
+			if (nextNode != nullptr || nextNode != NULL)
 			{
-				currentNode = nextNode;
-				nextNode = nextNode->getNext();
+				nextValue = nextNode->getValue();
 			}
 
-			if (currentNode->getNext() == NULL)
+
+			while (nextNode != nullptr && !(itemValue < nextValue))
 			{
-				tail->setNext(new Node<T>(item));
-				tail = tail->getNext();
+				currentNode = nextNode;
+				currentValue = currentNode->getValue();
+
+				nextNode = nextNode->getNext();
+
+				if (nextNode != nullptr)
+				{
+					nextValue = nextNode->getValue();
+				}
+			}
+
+			if (nextNode == nullptr)
+			{
+				currentNode->setNext(new Node<T>(item));
+				tail = currentNode->getNext();
+			}
+
+			else if (currentNode == head)
+			{
+				Node<T>* newHead = new Node<T>(item);
+
+				newHead->setNext(head);
+
+				head = newHead;
 			}
 
 			else
@@ -143,11 +170,11 @@ template <typename T> class Queue
 		//pop
 		T pop()
 		{
-			Node<T> node = head;
+			Node<T>* node = head;
 
-			T value = node.getValue();
+			T value = node->getValue();
 
-			head = head.getNext();
+			head = head->getNext();
 
 			delete node;
 
@@ -164,6 +191,8 @@ template <typename T> class Queue
 				currentNode = currentNode->getNext();
 
 			} while (currentNode != nullptr);
+
+			std::cout << std::endl;
 		}
 
 		//GetSize
@@ -178,6 +207,17 @@ template <typename T> class Queue
 		{
 			return elementNum == 0;
 		}
+
+		private:
+			float getValue(T item)
+			{
+				if (typeid(AlbertoClass) == typeid(T))
+				{
+					return (AlbertoClass(item)).GetAge();
+				}
+
+				return item;
+			}
 
 };
 

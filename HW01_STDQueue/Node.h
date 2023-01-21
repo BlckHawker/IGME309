@@ -61,8 +61,6 @@ public:
 	//destructor
 	~Node()
 	{
-		item = NULL;
-
 		if (next != nullptr)
 		{
 			delete next;
