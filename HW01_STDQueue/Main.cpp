@@ -1,4 +1,5 @@
 #include "Main.h"
+#include "Queue.h"
 template <typename T> 
 void Print(std::deque<T> a_queue)
 {
@@ -14,6 +15,7 @@ void Print(std::deque<T> a_queue)
 
 int main(void)
 {
+	/*
 	std::deque<int> myQueue;
 	//Push elements
 	myQueue.push_back(0);
@@ -51,7 +53,59 @@ int main(void)
 	}
 	//Print queue
 	Print<int>(myQueue);
+	*/
 
+	Queue<int> intQueue = Queue<int>();
+	
+	//Push elements
+	intQueue.push(0);
+	std::cout << "	just pushed +++++" << std::endl;
+	intQueue.push(1);
+	
+	std::cout << "	just pushed +++++" << std::endl;
+
+	intQueue.push(2);
+	std::cout << "	just pushed +++++" << std::endl;
+
+	//Print queue
+	intQueue.print();
+
+	/*
+	//pop an element
+	intQueue.pop();
+	std::cout << "		just popped -----" << std::endl;
+	//add elements
+	intQueue.push(3);
+	std::cout << "	just pushed +++++" << std::endl;
+	intQueue.push(4);
+	std::cout << "	just pushed +++++" << std::endl;
+	intQueue.push(5);
+	std::cout << "	just pushed +++++" << std::endl;
+	
+	//Print queue
+	intQueue.print();
+
+	intQueue.pop();
+	std::cout << "		just popped -----" << std::endl;
+	intQueue.pop();
+	std::cout << "		just popped -----" << std::endl;
+	
+	//Print queue
+	intQueue.print();
+
+	//clear queue
+	uint count = intQueue.getSize();
+
+	for (uint i = 0; i < count; ++i)
+	{
+		intQueue.pop();
+		std::cout << "		just popped -----" << std::endl;
+	}
+	//Print queue
+	intQueue.print();
+	*/
+
+	/*
 	//Complex Data usage
 	std::deque<Foo> myFooQueue;
 	for (uint i = 0; i < 10; ++i)
@@ -78,6 +132,9 @@ int main(void)
 	{
 		std::cout << myAlbertoQueue[i] << std::endl;
 	}
+	*/
+
+	
 
 	std::cout << "Press Enter to finish." << std::endl;
 
