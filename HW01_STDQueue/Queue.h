@@ -6,25 +6,22 @@ Date: 2023/01
 #define __QUEUECLASS_H_
 
 #include <iostream>
-#include "Node.h"
 
 template <typename T> class Queue
 {
 
 	private:
-		Node<T>* head;
-		Node<T>* tail;
-
-		//what is inside the queue
+		T* arr;
+		int arrSize;
 		int elementNum;
 
 	public:
 		//constructor
 		Queue()
 		{
+			arr = new T[1];
+			arrSize = 1;
 			elementNum = 0;
-			head = nullptr;
-			tail = nullptr;
 		}
 
 		//constructor with an object
@@ -40,11 +37,13 @@ template <typename T> class Queue
 		{
 			elementNum = copy.elementNum;
 
-			head = copy.head;
-			tail = copy.tail;
-
-			copy.head = nullptr;
-			copy.tail = nullptr;
+			arrSize = copy.arrSize;
+			arr = new T[arrSize];
+				
+			for (int i = 0; i < arrSize; i++)
+			{
+				arr[i] = copy.arr[i];
+			}
 		}
 
 		//copy assignment
@@ -55,142 +54,120 @@ template <typename T> class Queue
 				return *this;
 			}
 
-			if (head != NULL)
+			if (arr != nullptr)
 			{
-				Node<T> currentHead = head;
-				Node<T> newHead = head.getNext();
-
-				while (newHead != NULL)
-				{
-					delete currentHead;
-					currentHead = newHead;
-					newHead = currentHead.getNext();
-				}
-
-				delete currentHead;
+				delete[] arr;
+				arr = nullptr;
 			}
 
 			elementNum = copy.elementNum;
 
-			head = copy.head;
-			tail = copy.tail;
+			arrSize = copy.arrSize;
 
-			return this*;
+			arr = new T[arrSize];
+
+			for (int i = 0; i < arrSize; i++)
+			{
+				arr[i] = copy.arr[i];
+			}
+
+			return *this;
+
 		}
 
 		//destructor
 		~Queue()
 		{
-			if (head != nullptr)
-			{
-				Node<T>* currentHead = head;
-				Node<T>* newHead = head->getNext();
-
-				while (newHead != nullptr)
-				{
-					delete currentHead;
-					currentHead = newHead;
-					newHead = currentHead->getNext();
-				}
-
-				delete currentHead;
-			}
-
 			elementNum = 0;
+			arrSize = 0;
+
+			if (arr != nullptr)
+			{
+				delete[] arr;
+				arr = nullptr;
+			}
 		}
 
 		//push
 		void push(T item)
 		{
+			T* tempArr;
+
+			if (arrSize == elementNum)
+			{
+				arrSize *= 2;
+			}
+
+			tempArr = new T[arrSize];
+
 			if (elementNum == 0)
 			{
-				head = new Node<T>(item);
-				tail = head;
+				arr[0] = item;
 				elementNum++;
+				tempArr = nullptr;
 				return;
 			}
 
-			//find which node the new item will be placed
-			Node<T>* currentNode = head;
-			Node<T>* nextNode = currentNode->getNext();
-
-			float currentValue = currentNode->getValue();
-			float itemValue = getValue(item);
-			float nextValue;
-
-
-			if (nextNode != nullptr || nextNode != NULL)
-			{
-				nextValue = nextNode->getValue();
-			}
-
-
-			while (nextNode != nullptr && !(itemValue < nextValue))
-			{
-				currentNode = nextNode;
-				currentValue = currentNode->getValue();
-
-				nextNode = nextNode->getNext();
-
-				if (nextNode != nullptr)
-				{
-					nextValue = nextNode->getValue();
-				}
-			}
-
-			if (nextNode == nullptr)
-			{
-				currentNode->setNext(new Node<T>(item));
-				tail = currentNode->getNext();
-			}
-
-			else if (currentNode == head)
-			{
-				Node<T>* newHead = new Node<T>(item);
-
-				newHead->setNext(head);
-
-				head = newHead;
-			}
-
-			else
-			{
-				Node<T>* target = new Node<T>(item);
-
-				Node<T>* targetNext = currentNode->getNext();
-
-				currentNode->setNext(target);
-
-				target->setNext(targetNext);
-			}
-
 			elementNum++;
+
+			//find which index the new item will be placed
+			int currentIndex = 0;
+
+			T currentValue = getValue(arr[0]);
+			T itemValue = getValue(item);
+
+			while (!(itemValue < currentValue) && currentIndex + 1 != elementNum)
+			{
+				currentIndex++;
+
+				currentValue = getValue(arr[currentIndex]);
+			}
+
+			for (int i = 0; i < currentIndex; i++)
+			{
+				tempArr[i] = arr[i];
+			}
+
+			tempArr[currentIndex] = item;
+
+			for (int i = currentIndex + 1; i < elementNum; i++)
+			{
+				tempArr[i] = arr[i - 1];
+			}
+
+			arr = tempArr;
+
+			tempArr = nullptr;
 		}
 
 		//pop
 		T pop()
 		{
-			Node<T>* node = head;
+			T* tempArr = new T[arrSize];
 
-			T value = node->getValue();
+			elementNum--;
 
-			head = head->getNext();
+			for (int i = 0; i < elementNum; i++)
+			{
+				tempArr[i] = arr[i + 1];
+			}
 
-			delete node;
+			T item = arr[0];
 
-			return value;
+			arr = tempArr;
+
+			tempArr = nullptr;
+
+			return item;
 		}
 
 		//Print
 		void print()
 		{
-			Node<T>* currentNode = head;
-			do
+			for (int i = 0; i < elementNum; i++)
 			{
-				std::cout << currentNode->getValue() << " ";
-				currentNode = currentNode->getNext();
-
-			} while (currentNode != nullptr);
+				std::cout << arr[i] << " ";
+			}
 
 			std::cout << std::endl;
 		}
@@ -209,12 +186,17 @@ template <typename T> class Queue
 		}
 
 		private:
-			float getValue(T item)
+			T getValue(T item)
 			{
 				if (typeid(AlbertoClass) == typeid(T))
 				{
 					return (AlbertoClass(item)).GetAge();
 				}
+
+				//if (typeid(Foo) == typeid(T))
+				//{
+				//	return (Foo(item)).content;
+				//}
 
 				return item;
 			}

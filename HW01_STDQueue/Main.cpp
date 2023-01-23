@@ -15,139 +15,205 @@ void Print(std::deque<T> a_queue)
 
 int main(void)
 {
-	/*
-	std::deque<int> myQueue;
-	//Push elements
-	myQueue.push_back(0);
-	std::cout << "	just pushed +++++" << std::endl;
-	myQueue.push_back(1);
-	std::cout << "	just pushed +++++" << std::endl;
-	myQueue.push_back(2);
-	std::cout << "	just pushed +++++" << std::endl;
-	//Print queue
-	Print<int>(myQueue);
-	//pop an element
-	myQueue.pop_front();
-	std::cout << "		just popped -----" << std::endl;
-	//add elements
-	myQueue.push_back(3);
-	std::cout << "	just pushed +++++" << std::endl;
-	myQueue.push_back(4);
-	std::cout << "	just pushed +++++" << std::endl;
-	myQueue.push_back(5);
-	std::cout << "	just pushed +++++" << std::endl;
-	//Print queue
-	Print<int>(myQueue);
-	myQueue.pop_front();
-	std::cout << "		just popped -----" << std::endl;
-	myQueue.pop_front();
-	std::cout << "		just popped -----" << std::endl;
-	//Print queue
-	Print<int>(myQueue);
-	//clear queue
-	uint count = myQueue.size();
-	for (uint i = 0; i < count; ++i)
-	{
-		myQueue.pop_front();
-		std::cout << "		just popped -----" << std::endl;
-	}
-	//Print queue
-	Print<int>(myQueue);
-	*/
+	std::cout << "==========FLOAT QUEUE==========" << std::endl << std::endl;
+
+	Queue<float> floatQueue = Queue<float>();
+
+	floatQueue.push(0);
+	std::cout << "just pushed 0" << std::endl;
+	std::cout << "expecting 0" << std::endl;
+	std::cout << "got ";
+	floatQueue.print();
+	std::cout << std::endl;
+
+	floatQueue.push(3);
+	std::cout << "just pushed 3" << std::endl;
+	std::cout << "expecting 0 3" << std::endl;
+	std::cout << "got ";
+	floatQueue.print();
+	std::cout << std::endl;
+
+	floatQueue.push(1);
+	std::cout << "just pushed 1" << std::endl;
+	std::cout << "expecting 0 1 3" << std::endl;
+	std::cout << "got ";
+	floatQueue.print();
+	std::cout << std::endl;
+
+	floatQueue.push(2);
+	std::cout << "just pushed 2" << std::endl;
+	std::cout << "expecting 0 1 2 3" << std::endl;
+	std::cout << "got ";
+	floatQueue.print();
+	std::cout << std::endl << std::endl;
+
+	std::cout << "==========INT QUEUE==========" << std::endl << std::endl;
 
 	Queue<int> intQueue = Queue<int>();
 	
-	//Push elements	
-	intQueue.push(1);
-	std::cout << "	just pushed +++++" << std::endl;
+	int pop;
+	
+	//pop
+	intQueue.push(3);
+	std::cout << "just pushed 3" << std::endl;
+	std::cout << "expecting 3" << std::endl;
+	std::cout << "got ";
 	intQueue.print();
+	std::cout << std::endl;
 
+	pop = intQueue.pop();
+	std::cout << "just popped 3" << std::endl;
+	std::cout << "got " << pop;
+	std::cout << std::endl;
+	std::cout << "expecting" << std::endl;
+	intQueue.print();
+	std::cout << std::endl;
+
+	intQueue.push(10);
+	std::cout << "just pushed 10" << std::endl;
+	std::cout << "expecting 10" << std::endl;
+	std::cout << "got ";
+	intQueue.print();
+	std::cout << std::endl;
+
+	//pop
 	intQueue.push(2);
-	std::cout << "	just pushed +++++" << std::endl;
+	std::cout << "just pushed 2" << std::endl;
+	std::cout << "expecting 2 10" << std::endl;
+	std::cout << "got ";
 	intQueue.print();
+	std::cout << std::endl;
 
+	pop = intQueue.pop();
+	std::cout << "just popped 2" << std::endl;
+	std::cout << "got " << pop;
+	std::cout << std::endl;
+	std::cout << "expecting 10" << std::endl;
+	intQueue.print();
+	std::cout << std::endl;
 
+	//pop
+	intQueue.push(9);
+	std::cout << "just pushed 9" << std::endl;
+	std::cout << "expecting 9 10" << std::endl;
+	std::cout << "got ";
+	intQueue.print();
+	std::cout << std::endl;
+
+	pop = intQueue.pop();
+	std::cout << "just popped 9" << std::endl;
+	std::cout << "got " << pop;
+	std::cout << std::endl;
+	std::cout << "expecting 10" << std::endl;
+	intQueue.print();
+	std::cout << std::endl;
+
+	//pop
+	intQueue.push(2);
+	std::cout << "just pushed 2" << std::endl;
+	std::cout << "expecting 2 10" << std::endl;
+	std::cout << "got ";
+	intQueue.print();
+	std::cout << std::endl;
+
+	pop = intQueue.pop();
+	std::cout << "just popped 2" << std::endl;
+	std::cout << "got " << pop;
+	std::cout << std::endl;
+	std::cout << "expecting 10" << std::endl;
+	intQueue.print();
+	std::cout << std::endl;
+
+	//pop
 	intQueue.push(4);
-	std::cout << "	just pushed +++++" << std::endl;
+	std::cout << "just pushed 4" << std::endl;
+	std::cout << "expecting 4 10" << std::endl;
+	std::cout << "got ";
 	intQueue.print();
+	std::cout << std::endl;
 
-
-	intQueue.push(3);
-	std::cout << "	just pushed +++++" << std::endl;
+	pop = intQueue.pop();
+	std::cout << "just popped 4" << std::endl;
+	std::cout << "got " << pop;
+	std::cout << std::endl;
+	std::cout << "expecting 10" << std::endl;
 	intQueue.print();
+	std::cout << std::endl;
 
-
-	intQueue.push(0);
-	std::cout << "	just pushed +++++" << std::endl;
-
-	//Print queue
+	intQueue.push(6);
+	std::cout << "just pushed 6" << std::endl;
+	std::cout << "expecting 6 10" << std::endl;
+	std::cout << "got ";
 	intQueue.print();
+	std::cout << std::endl;
 
-	/*
-	//pop an element
-	intQueue.pop();
-	std::cout << "		just popped -----" << std::endl;
-	//add elements
-	intQueue.push(3);
-	std::cout << "	just pushed +++++" << std::endl;
-	intQueue.push(4);
-	std::cout << "	just pushed +++++" << std::endl;
-	intQueue.push(5);
-	std::cout << "	just pushed +++++" << std::endl;
+	//pop
+	intQueue.push(7);
+	std::cout << "just pushed 7" << std::endl;
+	std::cout << "expecting 6 7 10" << std::endl;
+	std::cout << "got ";
+	intQueue.print();
+	std::cout << std::endl;
+
+	pop = intQueue.pop();
+	std::cout << "just popped 6" << std::endl;
+	std::cout << "got " << pop;
+	std::cout << std::endl;
+	std::cout << "expecting 7 10" << std::endl;
+	intQueue.print();
+	std::cout << std::endl;
+
+
+	intQueue.push(7);
+	std::cout << "just pushed 7" << std::endl;
+	std::cout << "expecting 7 7 10" << std::endl;
+	std::cout << "got ";
+	intQueue.print();
+	std::cout << std::endl;
+
+	intQueue.push(6);
+	std::cout << "just pushed 6" << std::endl;
+	std::cout << "expecting 6 7 7 10" << std::endl;
+	std::cout << "got ";
+	intQueue.print();
+	std::cout << std::endl;
+
 	
-	//Print queue
-	intQueue.print();
 
-	intQueue.pop();
-	std::cout << "		just popped -----" << std::endl;
-	intQueue.pop();
-	std::cout << "		just popped -----" << std::endl;
-	
-	//Print queue
-	intQueue.print();
+	//not clearing the float queue to make sure the destructor works on its own
 
-	//clear queue
-	uint count = intQueue.getSize();
-
-	for (uint i = 0; i < count; ++i)
-	{
-		intQueue.pop();
-		std::cout << "		just popped -----" << std::endl;
-	}
-	//Print queue
-	intQueue.print();
-	*/
-
-	/*
 	//Complex Data usage
-	std::deque<Foo> myFooQueue;
+
+	
+	std::cout << "==========FOO QUEUE==========" << std::endl << std::endl;
+
+	Queue<Foo> myFooQueue = Queue<Foo>();
 	for (uint i = 0; i < 10; ++i)
 	{
 		Foo foo(i);
-		myFooQueue.push_back(foo);
-		std::cout << "	just pushed +++++" << std::endl;
+		myFooQueue.push(foo);
+
+		std::cout << "just pushed " << foo.content << std::endl;
 		if (i % 2 == 0)
 		{
-			myFooQueue.pop_front();
+			myFooQueue.pop();
 			std::cout << "		just popped -----" << std::endl;
 		}
 	}
+	
 
-	std::deque<AlbertoClass> myAlbertoQueue;
+	std::cout << "==========ALBERTO QUEUE==========" << std::endl << std::endl;
+
+	Queue<AlbertoClass> albertoQueue = Queue<AlbertoClass>();
+
 	for (uint i = 30; i < 40; ++i)
 	{
 		AlbertoClass alberto(i);
-		myAlbertoQueue.push_back(alberto);
-		std::cout << "	just pushed +++++" << std::endl;
+		albertoQueue.push(alberto);
+		std::cout << "just pushed " << i << std::endl;
 	}
-	std::cout << "	Content" << std::endl;
-	for (uint i = 0; i < 10; ++i)
-	{
-		std::cout << myAlbertoQueue[i] << std::endl;
-	}
-	*/
-
-	
+	std::cout << "Content" << std::endl;
+	albertoQueue.print();
 
 	std::cout << "Press Enter to finish." << std::endl;
 

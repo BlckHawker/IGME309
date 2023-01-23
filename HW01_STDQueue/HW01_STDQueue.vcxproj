@@ -101,7 +101,6 @@
   <ItemGroup>
     <ClInclude Include="Alberto.h" />
     <ClInclude Include="Main.h" />
-    <ClInclude Include="Node.h" />
     <ClInclude Include="Queue.h" />
   </ItemGroup>
   <ItemGroup>
