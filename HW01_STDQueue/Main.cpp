@@ -13,6 +13,11 @@ void Print(std::deque<T> a_queue)
 	std::cout << "End of queue............" << std::endl;
 }
 
+void queueTests()
+{
+
+}
+
 int main(void)
 {
 	std::cout << "==========FLOAT QUEUE==========" << std::endl << std::endl;
@@ -47,15 +52,14 @@ int main(void)
 	floatQueue.print();
 	std::cout << std::endl << std::endl;
 
+	/*
 	std::cout << "==========INT QUEUE==========" << std::endl << std::endl;
 
-	Queue<int> intQueue = Queue<int>();
-	
+	Queue<int> intQueue = Queue<int>(3);
+
 	int pop;
-	
-	//pop
-	intQueue.push(3);
-	std::cout << "just pushed 3" << std::endl;
+
+	std::cout << "started with 3" << std::endl;
 	std::cout << "expecting 3" << std::endl;
 	std::cout << "got ";
 	intQueue.print();
@@ -178,33 +182,18 @@ int main(void)
 	intQueue.print();
 	std::cout << std::endl;
 
-	
+
 
 	//not clearing the float queue to make sure the destructor works on its own
 
 	//Complex Data usage
 
-	
-	std::cout << "==========FOO QUEUE==========" << std::endl << std::endl;
 
-	Queue<Foo> myFooQueue = Queue<Foo>();
-	for (uint i = 0; i < 10; ++i)
-	{
-		Foo foo(i);
-		myFooQueue.push(foo);
+	std::cout << "==========ALBERTO QUEUE 1==========" << std::endl << std::endl;
 
-		std::cout << "just pushed " << foo.content << std::endl;
-		if (i % 2 == 0)
-		{
-			myFooQueue.pop();
-			std::cout << "		just popped -----" << std::endl;
-		}
-	}
-	
+	Queue<AlbertoClass> albertoQueue = Queue<AlbertoClass>(AlbertoClass(29));
 
-	std::cout << "==========ALBERTO QUEUE==========" << std::endl << std::endl;
-
-	Queue<AlbertoClass> albertoQueue = Queue<AlbertoClass>();
+	std::cout << "started with 29" << std::endl;
 
 	for (uint i = 30; i < 40; ++i)
 	{
@@ -215,9 +204,18 @@ int main(void)
 	std::cout << "Content" << std::endl;
 	albertoQueue.print();
 
+	std::cout << std::endl << "==========ALBERTO QUEUE 2==========" << std::endl << std::endl;
+	std::cout << "Copying Alberto 1 " << std::endl;
+	Queue<AlbertoClass> albertoQueue2 = albertoQueue;
+	std::cout << "Printing alberto queue 2 " << std::endl;
+
+	albertoQueue2.print();
+
+	*/
+
 	std::cout << "Press Enter to finish." << std::endl;
 
-
-	
 	getchar();
+	_CrtDumpMemoryLeaks();
 }
+

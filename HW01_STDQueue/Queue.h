@@ -28,8 +28,11 @@ template <typename T> class Queue
 		Queue(T item)
 		{
 			elementNum = 1;
-			head = new Node<T> (item);
-			tail = head;
+			arrSize = 1;
+
+			arr = new T[1];
+
+			arr[0] = item;
 		}
 
 		//copy constructor
@@ -113,8 +116,8 @@ template <typename T> class Queue
 			//find which index the new item will be placed
 			int currentIndex = 0;
 
-			T currentValue = getValue(arr[0]);
-			T itemValue = getValue(item);
+			T currentValue = arr[0];
+			T itemValue = item;
 
 			while (!(itemValue < currentValue) && currentIndex + 1 != elementNum)
 			{
