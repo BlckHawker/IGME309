@@ -61,6 +61,7 @@ template <typename T> class Queue
 			{
 				delete[] arr;
 				arr = nullptr;
+				delete arr;
 			}
 
 			elementNum = copy.elementNum;
@@ -81,14 +82,16 @@ template <typename T> class Queue
 		//destructor
 		~Queue()
 		{
-			elementNum = 0;
-			arrSize = 0;
-
 			if (arr != nullptr)
 			{
 				delete[] arr;
-				arr = nullptr;
+
 			}
+			arr = nullptr;
+			delete arr;
+
+			elementNum = 0;
+			arrSize = 0;
 		}
 
 		//push
@@ -107,6 +110,7 @@ template <typename T> class Queue
 			{
 				arr[0] = item;
 				elementNum++;
+				delete[] tempArr;
 				tempArr = nullptr;
 				return;
 			}
@@ -138,6 +142,7 @@ template <typename T> class Queue
 				tempArr[i] = arr[i - 1];
 			}
 
+			delete[] arr;
 			arr = tempArr;
 
 			tempArr = nullptr;
@@ -157,10 +162,12 @@ template <typename T> class Queue
 
 			T item = arr[0];
 
+			delete[] arr;
+
 			arr = tempArr;
 
 			tempArr = nullptr;
-
+			delete tempArr;
 			return item;
 		}
 
@@ -195,11 +202,6 @@ template <typename T> class Queue
 				{
 					return (AlbertoClass(item)).GetAge();
 				}
-
-				//if (typeid(Foo) == typeid(T))
-				//{
-				//	return (Foo(item)).content;
-				//}
 
 				return item;
 			}

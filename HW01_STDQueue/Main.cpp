@@ -15,21 +15,18 @@ void Print(std::deque<T> a_queue)
 
 void queueTests()
 {
-
-}
-
-int main(void)
-{
 	std::cout << "==========FLOAT QUEUE==========" << std::endl << std::endl;
 
 	Queue<float> floatQueue = Queue<float>();
 
+	
 	floatQueue.push(0);
 	std::cout << "just pushed 0" << std::endl;
 	std::cout << "expecting 0" << std::endl;
 	std::cout << "got ";
 	floatQueue.print();
 	std::cout << std::endl;
+
 
 	floatQueue.push(3);
 	std::cout << "just pushed 3" << std::endl;
@@ -52,7 +49,11 @@ int main(void)
 	floatQueue.print();
 	std::cout << std::endl << std::endl;
 
-	/*
+	floatQueue.pop();
+	std::cout << "called pop" << std::endl;
+	floatQueue.print();
+	std::cout << std::endl << std::endl;
+	
 	std::cout << "==========INT QUEUE==========" << std::endl << std::endl;
 
 	Queue<int> intQueue = Queue<int>(3);
@@ -211,11 +212,17 @@ int main(void)
 
 	albertoQueue2.print();
 
-	*/
+	
 
 	std::cout << "Press Enter to finish." << std::endl;
 
 	getchar();
+}
+
+int main(void)
+{
+	queueTests();
+
 	_CrtDumpMemoryLeaks();
 }
 
