@@ -16,7 +16,7 @@ template <typename T> class Queue
 		int elementNum;
 
 	public:
-		//constructor
+		//constructor that doesn't hold any items
 		Queue()
 		{
 			arr = new T[1];
@@ -24,7 +24,7 @@ template <typename T> class Queue
 			elementNum = 0;
 		}
 
-		//constructor with an object
+		//constructor that takes one item
 		Queue(T item)
 		{
 			elementNum = 1;
@@ -94,7 +94,7 @@ template <typename T> class Queue
 			arrSize = 0;
 		}
 
-		//push
+		//adds the new item starting from lowest to highest
 		void push(T item)
 		{
 			T* tempArr;
@@ -148,7 +148,7 @@ template <typename T> class Queue
 			tempArr = nullptr;
 		}
 
-		//pop
+		//removes the first item in the list and returns it
 		T pop()
 		{
 			T* tempArr = new T[arrSize];
@@ -171,7 +171,7 @@ template <typename T> class Queue
 			return item;
 		}
 
-		//Print
+		//prints all items in the queue
 		void print()
 		{
 			for (int i = 0; i < elementNum; i++)
@@ -182,20 +182,21 @@ template <typename T> class Queue
 			std::cout << std::endl;
 		}
 
-		//GetSize
+		//tells how many items are in the queue
 		int getSize()
 		{
 			return elementNum;
 		}
 
 
-		//IsEmpty
+		//tells if the queue is empty
 		bool isEmpty()
 		{
 			return elementNum == 0;
 		}
 
 		private:
+			//helper function to evaluate where an item goes in the queue
 			T getValue(T item)
 			{
 				if (typeid(AlbertoClass) == typeid(T))

@@ -81,7 +81,6 @@ void queueTests()
 	intQueue.print();
 	std::cout << std::endl;
 
-	//pop
 	intQueue.push(2);
 	std::cout << "just pushed 2" << std::endl;
 	std::cout << "expecting 2 10" << std::endl;
@@ -97,7 +96,6 @@ void queueTests()
 	intQueue.print();
 	std::cout << std::endl;
 
-	//pop
 	intQueue.push(9);
 	std::cout << "just pushed 9" << std::endl;
 	std::cout << "expecting 9 10" << std::endl;
@@ -113,7 +111,6 @@ void queueTests()
 	intQueue.print();
 	std::cout << std::endl;
 
-	//pop
 	intQueue.push(2);
 	std::cout << "just pushed 2" << std::endl;
 	std::cout << "expecting 2 10" << std::endl;
@@ -129,7 +126,6 @@ void queueTests()
 	intQueue.print();
 	std::cout << std::endl;
 
-	//pop
 	intQueue.push(4);
 	std::cout << "just pushed 4" << std::endl;
 	std::cout << "expecting 4 10" << std::endl;
@@ -152,7 +148,6 @@ void queueTests()
 	intQueue.print();
 	std::cout << std::endl;
 
-	//pop
 	intQueue.push(7);
 	std::cout << "just pushed 7" << std::endl;
 	std::cout << "expecting 6 7 10" << std::endl;
@@ -211,8 +206,6 @@ void queueTests()
 	std::cout << "Printing alberto queue 2 " << std::endl;
 
 	albertoQueue2.print();
-
-	
 
 	std::cout << "Press Enter to finish." << std::endl;
 
