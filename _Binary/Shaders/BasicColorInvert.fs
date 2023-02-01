@@ -15,7 +15,7 @@ void main()
 		output = SolidColor;
 	}
 	
-	if(Complimentary == true)
+	if(Complimentary)
 	{
 		output = vec3(1.0f, 1.0f, 1.0f) - output;
 	}

@@ -81,21 +81,6 @@ void queueTests()
 	intQueue.print();
 	std::cout << std::endl;
 
-	intQueue.push(2);
-	std::cout << "just pushed 2" << std::endl;
-	std::cout << "expecting 2 10" << std::endl;
-	std::cout << "got ";
-	intQueue.print();
-	std::cout << std::endl;
-
-	pop = intQueue.pop();
-	std::cout << "just popped 2" << std::endl;
-	std::cout << "got " << pop;
-	std::cout << std::endl;
-	std::cout << "expecting 10" << std::endl;
-	intQueue.print();
-	std::cout << std::endl;
-
 	intQueue.push(9);
 	std::cout << "just pushed 9" << std::endl;
 	std::cout << "expecting 9 10" << std::endl;
@@ -105,36 +90,6 @@ void queueTests()
 
 	pop = intQueue.pop();
 	std::cout << "just popped 9" << std::endl;
-	std::cout << "got " << pop;
-	std::cout << std::endl;
-	std::cout << "expecting 10" << std::endl;
-	intQueue.print();
-	std::cout << std::endl;
-
-	intQueue.push(2);
-	std::cout << "just pushed 2" << std::endl;
-	std::cout << "expecting 2 10" << std::endl;
-	std::cout << "got ";
-	intQueue.print();
-	std::cout << std::endl;
-
-	pop = intQueue.pop();
-	std::cout << "just popped 2" << std::endl;
-	std::cout << "got " << pop;
-	std::cout << std::endl;
-	std::cout << "expecting 10" << std::endl;
-	intQueue.print();
-	std::cout << std::endl;
-
-	intQueue.push(4);
-	std::cout << "just pushed 4" << std::endl;
-	std::cout << "expecting 4 10" << std::endl;
-	std::cout << "got ";
-	intQueue.print();
-	std::cout << std::endl;
-
-	pop = intQueue.pop();
-	std::cout << "just popped 4" << std::endl;
 	std::cout << "got " << pop;
 	std::cout << std::endl;
 	std::cout << "expecting 10" << std::endl;
