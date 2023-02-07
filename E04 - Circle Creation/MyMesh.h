@@ -21,6 +21,7 @@ class MyMesh
 
 	ShaderManager* m_pShaderMngr = nullptr;	//Shader Manager
 
+
 public:
 	/*
 	USAGE: Initialize the object's fields

@@ -1,4 +1,12 @@
 #include "MyMesh.h"
+
+vector3 ConvertPolarToCartesian(vector2 vertex)
+{
+	float radius = vertex.x;
+	float radiens = vertex.y;
+	return vector3(radius * cos(radiens), radius * sin(radiens), 0.0f);
+}
+
 void MyMesh::GenerateCircle(float a_fRadius, int a_nSubdivisions, vector3 a_v3Color)
 {
 	Release();
@@ -16,14 +24,55 @@ void MyMesh::GenerateCircle(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		Calculate a_nSubdivisions number of points around a center point in a radial manner
 		then call the AddTri function to generate a_nSubdivision number of faces
 	*/
-	AddTri(	vector3(0.0f, 0.0f, 0.0f),
-			vector3(1.0f, 0.0f, 0.0f),
-			vector3(0.77f, 0.77f, 0.0f));
+
+	const float degreeBetweenEdges = 2 * PI / a_nSubdivisions;
+
+	std::vector<vector3> verticies;
+
+	std::vector<vector2> polorCoords;
+
+
+	//the center vertex
+	vector3 centerVertex = vector3(0.0f, 0.0f, 0.0f);
+
+	//find the polar coordinates
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		polorCoords.push_back(vector2(a_fRadius, degreeBetweenEdges * i));
+
+		std::cout << "Polor coordinate " << i + 1 << ": radius = " << polorCoords[i].x << ", radiens: " << polorCoords[i].y << std::endl;
+	}
+	std::cout << std::endl;
+
+	//convert polar to cartisean
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		verticies.push_back(ConvertPolarToCartesian(polorCoords[i]));
+		std::cout << "Cartesian coordinate " << i + 1 << ": x = " << verticies[i].x << ", y: " << verticies[i].y << std::endl;
+	}
+	std::cout << std::endl;
+
+	
+
+	for (int i = 0; i < verticies.size() - 1; i++)
+	{
+		AddTri(centerVertex,
+			verticies[i],
+			verticies[i + 1]);
+	};
+
+	AddTri(	vector3(centerVertex),
+			vector3(verticies[verticies.size() - 1]),
+			vector3(verticies[0]));	
+
 
 	// Adding information about color
 	CompleteMesh(a_v3Color);
 	CompileOpenGL3X();
 }
+
+
+
 void MyMesh::Init(void)
 {
 	m_bBinded = false;

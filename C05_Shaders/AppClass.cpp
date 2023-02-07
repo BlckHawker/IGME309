@@ -119,7 +119,7 @@ void AppClass::ProcessKeyboard(sf::Event a_event)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::C))
 	{
 		complement = !complement;
-		std::cout << "comentneary is now " << complement << std::endl;
+		std::cout << "complementary is now " << complement << std::endl;
 	}
 }
 void AppClass::Display(void)
@@ -133,7 +133,6 @@ void AppClass::Display(void)
 	glUniform3f(SolidColor, m_v3Color.r, m_v3Color.g, m_v3Color.b);
 
 	GLuint Complimentary = glGetUniformLocation(m_uShaderProgramID, "Complimentary");
-
 	glUniform1i(Complimentary, complement);
 
 	//draw content
