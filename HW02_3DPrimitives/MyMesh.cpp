@@ -60,8 +60,36 @@ void MyMesh::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivisions,
 	Release();
 	Init();
 
-	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
+	// create the base
+	std::vector<vector3 > vertex;
+	GLfloat theta = 0;
+	GLfloat delta = static_cast<GLfloat>(2.0 * PI / static_cast<GLfloat>(a_nSubdivisions));
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		vector3 temp = vector3(cos(theta) * a_fRadius, sin(theta) * a_fRadius, 0.0f);
+		theta += delta;
+		vertex.push_back(temp);
+	}
+
+
+	for (int i = a_nSubdivisions - 1; i > 0; i--)
+	{
+		AddTri(ZERO_V3, vertex[i], vertex[(i - 1) % a_nSubdivisions]);
+	}
+
+	AddTri(ZERO_V3, vertex[0], vertex[a_nSubdivisions - 1]);
+
+	
+
+	//add the point at the top
+	vector3 point = vector3(0, 0, a_fHeight);
+
+	//connect vertices to point
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		AddTri(point, vertex[i], vertex[(i + 1) % a_nSubdivisions]);
+	}
+
 	// -------------------------------
 
 	// Adding information about color
