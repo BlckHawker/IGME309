@@ -54,17 +54,12 @@ void MyMesh::GenerateCircle(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 
 	
 
-	for (int i = 0; i < verticies.size() - 1; i++)
+	for (int i = 0; i < a_nSubdivisions; i++)
 	{
 		AddTri(centerVertex,
 			verticies[i],
-			verticies[i + 1]);
+			verticies[(i + 1) % a_nSubdivisions]);
 	};
-
-	AddTri(	vector3(centerVertex),
-			vector3(verticies[verticies.size() - 1]),
-			vector3(verticies[0]));	
-
 
 	// Adding information about color
 	CompleteMesh(a_v3Color);
