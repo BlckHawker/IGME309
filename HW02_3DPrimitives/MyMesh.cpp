@@ -1,4 +1,18 @@
 #include "MyMesh.h"
+std::vector<vector3> GetCircleVerticies(float a_fRadius, int a_nSubdivisions, float zPoint)
+{
+	std::vector<vector3> vertex;
+	GLfloat theta = 0;
+	GLfloat delta = static_cast<GLfloat>(2.0 * PI / static_cast<GLfloat>(a_nSubdivisions));
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		vector3 temp = vector3(cos(theta) * a_fRadius, sin(theta) * a_fRadius, zPoint);
+		theta += delta;
+		vertex.push_back(temp);
+	}
+	return vertex;
+}
+
 void MyMesh::GenerateCube(float a_fSize, vector3 a_v3Color)
 {
 	if (a_fSize < 0.01f)
@@ -61,15 +75,8 @@ void MyMesh::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivisions,
 	Init();
 
 	// create the base
-	std::vector<vector3 > vertex;
-	GLfloat theta = 0;
-	GLfloat delta = static_cast<GLfloat>(2.0 * PI / static_cast<GLfloat>(a_nSubdivisions));
-	for (int i = 0; i < a_nSubdivisions; i++)
-	{
-		vector3 temp = vector3(cos(theta) * a_fRadius, sin(theta) * a_fRadius, 0.0f);
-		theta += delta;
-		vertex.push_back(temp);
-	}
+
+	std::vector<vector3 >vertex = GetCircleVerticies(a_fRadius, a_nSubdivisions, 0);
 
 
 	for (int i = a_nSubdivisions - 1; i > 0; i--)
@@ -78,8 +85,6 @@ void MyMesh::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivisions,
 	}
 
 	AddTri(ZERO_V3, vertex[0], vertex[a_nSubdivisions - 1]);
-
-	
 
 	//add the point at the top
 	vector3 point = vector3(0, 0, a_fHeight);
@@ -112,8 +117,26 @@ void MyMesh::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubdivisi
 	Release();
 	Init();
 
-	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
+	//create bottom base
+	std::vector<vector3 > bottomBase = GetCircleVerticies(a_fRadius, a_nSubdivisions, 0);
+
+	for (int i = a_nSubdivisions - 1; i > 0; i--)
+	{
+		AddTri(vector3(0, 0, 0), bottomBase[i], bottomBase[(i - 1) % a_nSubdivisions]);
+	}
+
+	AddTri(vector3(0, 0, 0), bottomBase[0] , bottomBase[a_nSubdivisions - 1]);
+
+
+	//create top base
+	std::vector<vector3 > topBase = GetCircleVerticies(a_fRadius, a_nSubdivisions, a_fHeight);
+	
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		AddTri(vector3(0, 0, a_fHeight), topBase[i], topBase[(i + 1) % a_nSubdivisions]);
+	}
+
+
 	// -------------------------------
 
 	// Adding information about color
@@ -207,6 +230,7 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 	CompleteMesh(a_v3Color);
 	CompileOpenGL3X();
 }
+
 void MyMesh::AddTri(vector3 a_vBottomLeft, vector3 a_vBottomRight, vector3 a_vTopLeft)
 {
 	//C
