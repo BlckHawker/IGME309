@@ -125,7 +125,7 @@ void MyMesh::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubdivisi
 		AddTri(vector3(0, 0, 0), bottomBase[i], bottomBase[(i - 1) % a_nSubdivisions]);
 	}
 
-	AddTri(vector3(0, 0, 0), bottomBase[0] , bottomBase[a_nSubdivisions - 1]);
+	AddTri(vector3(0, 0, 0), bottomBase[0], bottomBase[a_nSubdivisions - 1]);
 
 
 	//create top base
@@ -135,6 +135,19 @@ void MyMesh::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubdivisi
 	{
 		AddTri(vector3(0, 0, a_fHeight), topBase[i], topBase[(i + 1) % a_nSubdivisions]);
 	}
+
+	//connect bases
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		AddTri(topBase[i], bottomBase[i], topBase[(i + 1) % a_nSubdivisions]);
+	}
+
+	for(int i = a_nSubdivisions - 1; i > 0; i--)
+	{
+		AddTri(bottomBase[i], topBase[i], bottomBase[(i - 1) % a_nSubdivisions]);
+	}
+
+	
 
 
 	// -------------------------------
