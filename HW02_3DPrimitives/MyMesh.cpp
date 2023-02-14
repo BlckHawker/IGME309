@@ -198,12 +198,23 @@ void MyMesh::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float a_fH
 
 	AddTri(outerTopRing[0], innerTopRing[0], innerTopRing[a_nSubdivisions - 1]);
 
+	#pragma endregion
 
+	#pragma region bottom ring
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		AddTri(outerBottomRing[i], innerBottomRing[i], outerBottomRing[(i + 1) % a_nSubdivisions]);
+	}
+
+	for (int i = a_nSubdivisions - 1; i > 0; i--)
+	{
+		AddTri(outerBottomRing[i], innerBottomRing[(i - 1) % a_nSubdivisions], innerBottomRing[i]);
+	}
+
+	AddTri(outerBottomRing[0], innerBottomRing[a_nSubdivisions - 1], innerBottomRing[0]);
 
 	#pragma endregion
 
-	/*
-	
 	#pragma region outer sides
 
 	for (int i = 0; i < a_nSubdivisions; i++)
@@ -215,8 +226,10 @@ void MyMesh::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float a_fH
 	{
 		AddTri(outerBottomRing[i], outerTopRing[i], outerBottomRing[(i - 1) % a_nSubdivisions]);
 	}
+
+	AddTri(outerBottomRing[a_nSubdivisions - 1], outerBottomRing[0], outerTopRing[0]);
+
 	#pragma endregion
-	
 
 	#pragma region inner sides
 
@@ -229,10 +242,9 @@ void MyMesh::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float a_fH
 	{
 		AddTri(innerBottomRing[i], innerBottomRing[(i - 1) % a_nSubdivisions], innerTopRing[i]);
 	}
+
+	AddTri(innerBottomRing[0], innerBottomRing[a_nSubdivisions - 1], innerTopRing[0]);
 	#pragma endregion
-
-	*/
-
 
 	// -------------------------------
 
