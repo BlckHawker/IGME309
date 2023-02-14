@@ -147,8 +147,7 @@ void MyMesh::GenerateCylinder(float a_fRadius, float a_fHeight, int a_nSubdivisi
 		AddTri(bottomBase[i], topBase[i], bottomBase[(i - 1) % a_nSubdivisions]);
 	}
 
-	
-
+	AddTri(bottomBase[0], topBase[0], bottomBase[a_nSubdivisions - 1]);
 
 	// -------------------------------
 
