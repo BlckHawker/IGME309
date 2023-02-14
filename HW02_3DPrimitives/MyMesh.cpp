@@ -185,6 +185,27 @@ void MyMesh::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float a_fH
 
 	std::vector<vector3> innerTopRing = GetCircleVerticies(a_fInnerRadius, a_nSubdivisions, a_fHeight);
 
+	#pragma region top ring
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		AddTri(outerTopRing[i], outerTopRing[(i + 1) % a_nSubdivisions], innerTopRing[i]);
+	}
+
+	for (int i = a_nSubdivisions - 1; i > 0; i--)
+	{
+		AddTri(outerTopRing[i], innerTopRing[i], innerTopRing[(i - 1) % a_nSubdivisions]);
+	}
+
+	AddTri(outerTopRing[0], innerTopRing[0], innerTopRing[a_nSubdivisions - 1]);
+
+
+
+	#pragma endregion
+
+	/*
+	
+	#pragma region outer sides
+
 	for (int i = 0; i < a_nSubdivisions; i++)
 	{
 		AddTri(outerTopRing[i], outerBottomRing[i], outerTopRing[(i + 1) % a_nSubdivisions]);
@@ -194,11 +215,23 @@ void MyMesh::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float a_fH
 	{
 		AddTri(outerBottomRing[i], outerTopRing[i], outerBottomRing[(i - 1) % a_nSubdivisions]);
 	}
+	#pragma endregion
+	
+
+	#pragma region inner sides
 
 	for (int i = 0; i < a_nSubdivisions; i++)
 	{
-		//AddTri(innerTopRing[i], innerBottomRing[i], innerTopRing[(i + 1) % a_nSubdivisions]);
+		AddTri(innerTopRing[i], innerTopRing[(i + 1) % a_nSubdivisions], innerBottomRing[i]);
 	}
+
+	for (int i = a_nSubdivisions - 1; i > 0; i--)
+	{
+		AddTri(innerBottomRing[i], innerBottomRing[(i - 1) % a_nSubdivisions], innerTopRing[i]);
+	}
+	#pragma endregion
+
+	*/
 
 
 	// -------------------------------
