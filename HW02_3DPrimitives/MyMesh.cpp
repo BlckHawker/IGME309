@@ -177,8 +177,30 @@ void MyMesh::GenerateTube(float a_fOuterRadius, float a_fInnerRadius, float a_fH
 	Release();
 	Init();
 
-	// Replace this with your code
-	GenerateCube(a_fOuterRadius * 2.0f, a_v3Color);
+	std::vector<vector3> outerBottomRing = GetCircleVerticies(a_fOuterRadius, a_nSubdivisions, 0);
+
+	std::vector<vector3> innerBottomRing = GetCircleVerticies(a_fInnerRadius, a_nSubdivisions, 0);
+
+	std::vector<vector3> outerTopRing = GetCircleVerticies(a_fOuterRadius, a_nSubdivisions, a_fHeight);
+
+	std::vector<vector3> innerTopRing = GetCircleVerticies(a_fInnerRadius, a_nSubdivisions, a_fHeight);
+
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		AddTri(outerTopRing[i], outerBottomRing[i], outerTopRing[(i + 1) % a_nSubdivisions]);
+	}
+
+	for (int i = a_nSubdivisions - 1; i > 0; i--)
+	{
+		AddTri(outerBottomRing[i], outerTopRing[i], outerBottomRing[(i - 1) % a_nSubdivisions]);
+	}
+
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		//AddTri(innerTopRing[i], innerBottomRing[i], innerTopRing[(i + 1) % a_nSubdivisions]);
+	}
+
+
 	// -------------------------------
 
 	// Adding information about color
