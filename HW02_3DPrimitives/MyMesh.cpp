@@ -13,6 +13,17 @@ std::vector<vector3> GetCircleVerticies(float a_fRadius, int a_nSubdivisions, fl
 	return vertex;
 }
 
+void PrintCircleInfo(std::vector<vector3> circle)
+{
+	float radius = circle[0].x;
+	std::cout << "Raidus: " << radius << std::endl;
+
+	for (int i = 0; i < circle.size(); i++)
+	{
+		std::cout << "vertex " << i << ": x: " << circle[i].x << ", y: " << circle[i].y << ", z: " << circle[i].z << std::endl;
+	}
+}
+
 void MyMesh::GenerateCube(float a_fSize, vector3 a_v3Color)
 {
 	if (a_fSize < 0.01f)
@@ -352,39 +363,102 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 
 	
 	float deltaZ = (a_fRadius * 2) / a_nSubdivisions;
-	float zPoint = 0;
+	float deltaRadius = a_fRadius / a_nSubdivisions * 2;
+
+	std::vector<vector3> centerCircle = GetCircleVerticies(a_fRadius, a_nSubdivisions, 0);
+
+	std::vector<std::vector<vector3>> topCircles;
+	std::vector<std::vector<vector3>> bottomCircles;
 
 	std::vector<std::vector<vector3>> circles;
-	std::vector<vector3> centerVerticies;
 
-	//create the circles
+
+
+		//draw center circle
+		for (int i = 0; i < a_nSubdivisions; i++)
+		{
+			AddTri(vector3(0, 0, 0), centerCircle[i], centerCircle[(i + 1) % a_nSubdivisions]);
+		}
+
+		//draw circles at top and bottom of center
+		for (int i = 0; i < a_nSubdivisions / 2; i++)
+		{
+			float r = a_fRadius - deltaRadius * (i + 1);
+			std::vector <vector3> topCircle = GetCircleVerticies(r, a_nSubdivisions, deltaZ * (i + 1));
+			std::vector <vector3> bottomCircle = GetCircleVerticies(r, a_nSubdivisions, deltaZ * (i + 1) * -1);
+
+			topCircles.push_back(topCircle);
+			bottomCircles.push_back(bottomCircle);
+		}
+
+		//add circles to one list
+		for (int i = 0; i < a_nSubdivisions / 2; i++)
+		{
+
+			std::cout << (int)(a_nSubdivisions / 2) - 1 - i << std::endl;
+			circles.push_back(topCircles[(int)(a_nSubdivisions / 2) - 1 - i]);
+		}
+
+		circles.push_back(centerCircle);
+
+		for (int i = 0; i < a_nSubdivisions / 2; i++)
+		{
+			circles.push_back(bottomCircles[i]);
+		}
+
+		//testing to see if circle are made correctly
+		for (int i = 0; i < a_nSubdivisions; i++)
+		{
+			PrintCircleInfo(circles[i]);
+		}
+	
+
+
+	//connect the circles edges
 	for (int i = 0; i < a_nSubdivisions; i++)
 	{
-		centerVerticies.push_back(vector3(0, 0, zPoint));
-
-		std::vector<vector3> circle = GetCircleVerticies(a_fRadius, a_nSubdivisions, zPoint);
-
-		circles.push_back(circle);
-
-		zPoint -= deltaZ;
-	}
-
-	//draw the circles
-	for (int i = 0; i < a_nSubdivisions; i++)
-	{
-		std::vector<vector3> circle = circles[i];
-		vector3 center = centerVerticies[i];
-
+		std::vector<vector3> circle1 = circles[i];
+		std::vector<vector3> circle2 = circles[(i + 1) % a_nSubdivisions];
+	
 		for (int j = 0; j < a_nSubdivisions; j++)
 		{
-			AddTri(center, circle[j], circle[(j + 1) % 3]);
+			AddQuad(circle1[j], circle2[j], circle1[(j + 1) % a_nSubdivisions], circle2[(j + 1) % a_nSubdivisions]);
 		}
 	}
+	
+	//draw "bases"
+
+	//draw top
+
+	std::vector<vector3> topCircle = circles[0];
+	float topZValue = topCircle[0].z;
+
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		AddTri(vector3(0,0, topZValue), topCircle[i], topCircle[(i + 1) % a_nSubdivisions]);
+	}
+	
+	//draw bottom
+
+	std::vector<vector3> bottomCircle = circles[a_nSubdivisions - 1];
+	float bottomZValue = bottomCircle[0].z;
+
+	for (int i = a_nSubdivisions - 1; i > 0; i--)
+	{
+		AddTri(vector3(0, 0, bottomZValue), bottomCircle[i], bottomCircle[i - 1]);
+	}
+
+	AddTri(vector3(0, 0, bottomZValue), bottomCircle[0], bottomCircle[a_nSubdivisions - 1]);
+
+
+
+
 
 	// Adding information about color
 	CompleteMesh(a_v3Color);
 	CompileOpenGL3X();
 }
+
 
 void MyMesh::AddTri(vector3 a_vBottomLeft, vector3 a_vBottomRight, vector3 a_vTopLeft)
 {
