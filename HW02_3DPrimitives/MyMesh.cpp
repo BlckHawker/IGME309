@@ -276,9 +276,58 @@ void MyMesh::GenerateTorus(float a_fOuterRadius, float a_fInnerRadius, int a_nSu
 	Release();
 	Init();
 
-	// Replace this with your code
-	GenerateCube(a_fOuterRadius * 2.0f, a_v3Color);
-	// -------------------------------
+	int circleRadius = a_fOuterRadius;
+	int torusRadius = a_fOuterRadius;
+
+	int tourusSegments = a_nSubdivisionsA;
+	int circleSegments = a_nSubdivisionsB;
+
+
+
+	//get all the verticies of all the circles
+	std::vector<std::vector<vector3>> circles;
+
+	GLfloat phi = 0;
+	GLfloat deltaPhi = static_cast<GLfloat>(2.0 * PI / static_cast<GLfloat>(tourusSegments));
+
+	GLfloat theta = 0;
+	GLfloat deltaTheta = static_cast<GLfloat>(2.0 * PI / static_cast<GLfloat>(circleSegments));
+
+
+	for (int i = 0; i < tourusSegments; i++)
+	{
+		std::vector<vector3> circle;
+		const int division = 4;
+
+		for (int j = 0; j < circleSegments; j++)
+		{
+			float thickness = (torusRadius - sin(theta) * circleRadius / division);
+
+			float x = cos(phi) * thickness;
+			float y = sin(phi) * thickness;
+			float z = (cos(theta) * thickness) / division;
+
+			circle.push_back(vector3(x,y,z));
+
+			theta += deltaTheta;
+		}
+
+		theta = 0;
+		phi += deltaPhi;
+
+		circles.push_back(circle);
+	}
+
+	for (int i = 0; i < tourusSegments; i++)
+	{
+		std::vector<vector3> circle1 = circles[i];
+		std::vector<vector3> circle2 = circles[(i + 1) % tourusSegments];
+
+		for (int j = 0; j < circleSegments; j++) 
+		{
+			AddQuad(circle1[(j + 1) % circleSegments], circle1[j], circle2[(j + 1) % circleSegments], circle2[j]);
+		}
+	}
 
 	// Adding information about color
 	CompleteMesh(a_v3Color);
@@ -301,9 +350,36 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 	Release();
 	Init();
 
-	// Replace this with your code
-	GenerateCube(a_fRadius * 2.0f, a_v3Color);
-	// -------------------------------
+	
+	float deltaZ = (a_fRadius * 2) / a_nSubdivisions;
+	float zPoint = 0;
+
+	std::vector<std::vector<vector3>> circles;
+	std::vector<vector3> centerVerticies;
+
+	//create the circles
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		centerVerticies.push_back(vector3(0, 0, zPoint));
+
+		std::vector<vector3> circle = GetCircleVerticies(a_fRadius, a_nSubdivisions, zPoint);
+
+		circles.push_back(circle);
+
+		zPoint -= deltaZ;
+	}
+
+	//draw the circles
+	for (int i = 0; i < a_nSubdivisions; i++)
+	{
+		std::vector<vector3> circle = circles[i];
+		vector3 center = centerVerticies[i];
+
+		for (int j = 0; j < a_nSubdivisions; j++)
+		{
+			AddTri(center, circle[j], circle[(j + 1) % 3]);
+		}
+	}
 
 	// Adding information about color
 	CompleteMesh(a_v3Color);
