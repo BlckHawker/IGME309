@@ -435,7 +435,7 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 
 	for (int i = 0; i < a_nSubdivisions; i++)
 	{
-		AddTri(vector3(0,0, topZValue), topCircle[i], topCircle[(i + 1) % a_nSubdivisions]);
+		AddTri(vector3(0,0, topZValue + (deltaZ / 2)), topCircle[i], topCircle[(i + 1) % a_nSubdivisions]);
 	}
 	
 	//draw bottom
@@ -445,10 +445,10 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 
 	for (int i = a_nSubdivisions - 1; i > 0; i--)
 	{
-		AddTri(vector3(0, 0, bottomZValue), bottomCircle[i], bottomCircle[i - 1]);
+		AddTri(vector3(0, 0, bottomZValue - (deltaZ / 2)), bottomCircle[i], bottomCircle[i - 1]);
 	}
 
-	AddTri(vector3(0, 0, bottomZValue), bottomCircle[0], bottomCircle[a_nSubdivisions - 1]);
+	AddTri(vector3(0, 0, bottomZValue - (deltaZ / 2)), bottomCircle[0], bottomCircle[a_nSubdivisions - 1]);
 
 
 
