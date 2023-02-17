@@ -383,7 +383,7 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		//draw circles at top and bottom of center
 		for (int i = 0; i < a_nSubdivisions / 2; i++)
 		{
-			float r = a_fRadius - deltaRadius * (i + 1);
+			float r = a_fRadius - glm::abs(deltaZ * i);
 			std::vector <vector3> topCircle = GetCircleVerticies(r, a_nSubdivisions, deltaZ * (i + 1));
 			std::vector <vector3> bottomCircle = GetCircleVerticies(r, a_nSubdivisions, deltaZ * (i + 1) * -1);
 
@@ -394,7 +394,6 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 		//add circles to one list
 		for (int i = 0; i < a_nSubdivisions / 2; i++)
 		{
-
 			std::cout << (int)(a_nSubdivisions / 2) - 1 - i << std::endl;
 			circles.push_back(topCircles[(int)(a_nSubdivisions / 2) - 1 - i]);
 		}
@@ -428,27 +427,22 @@ void MyMesh::GenerateSphere(float a_fRadius, int a_nSubdivisions, vector3 a_v3Co
 	
 	//draw "bases"
 
-	//draw top
+	//draw top and bottom
 
+	std::vector<vector3> bottomCircle = circles[a_nSubdivisions - 1];
+	float bottomZValue = bottomCircle[0].z;
 	std::vector<vector3> topCircle = circles[0];
 	float topZValue = topCircle[0].z;
 
 	for (int i = 0; i < a_nSubdivisions; i++)
 	{
-		AddTri(vector3(0,0, topZValue + (deltaZ / 2)), topCircle[i], topCircle[(i + 1) % a_nSubdivisions]);
+		AddTri(vector3(0,0, topZValue + deltaZ/ 2), topCircle[i], topCircle[(i + 1) % a_nSubdivisions]);
+		AddTri(vector3(0, 0, bottomZValue - deltaZ / 2), bottomCircle[(i + 1) % a_nSubdivisions], bottomCircle[i]);
+
 	}
+
 	
-	//draw bottom
 
-	std::vector<vector3> bottomCircle = circles[a_nSubdivisions - 1];
-	float bottomZValue = bottomCircle[0].z;
-
-	for (int i = a_nSubdivisions - 1; i > 0; i--)
-	{
-		AddTri(vector3(0, 0, bottomZValue - (deltaZ / 2)), bottomCircle[i], bottomCircle[i - 1]);
-	}
-
-	AddTri(vector3(0, 0, bottomZValue - (deltaZ / 2)), bottomCircle[0], bottomCircle[a_nSubdivisions - 1]);
 
 
 
