@@ -87,23 +87,21 @@ void MyMesh::GenerateCone(float a_fRadius, float a_fHeight, int a_nSubdivisions,
 
 	// create the base
 
-	std::vector<vector3 >vertex = GetCircleVerticies(a_fRadius, a_nSubdivisions, 0);
+	std::vector<vector3 >base = GetCircleVerticies(a_fRadius, a_nSubdivisions, a_fHeight/2);
 
 
-	for (int i = a_nSubdivisions - 1; i > 0; i--)
+	for (int i = 0; i < a_nSubdivisions; i++)
 	{
-		AddTri(ZERO_V3, vertex[i], vertex[(i - 1) % a_nSubdivisions]);
+		AddTri(vector3(0,0, a_fHeight / 2),base[(i + 1) % a_nSubdivisions], base[i]);
 	}
 
-	AddTri(ZERO_V3, vertex[0], vertex[a_nSubdivisions - 1]);
-
 	//add the point at the top
-	vector3 point = vector3(0, 0, a_fHeight);
+	vector3 point = vector3(0, 0, -a_fHeight / 2);
 
 	//connect vertices to point
 	for (int i = 0; i < a_nSubdivisions; i++)
 	{
-		AddTri(point, vertex[i], vertex[(i + 1) % a_nSubdivisions]);
+		AddTri(point, base[i], base[(i + 1) % a_nSubdivisions]);
 	}
 
 	// -------------------------------
