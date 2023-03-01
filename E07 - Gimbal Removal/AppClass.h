@@ -48,6 +48,8 @@ private:
 	bool m_bModifier = false; //is shift pressed?
 
 public:
+
+	quaternion projection;
 #pragma region Constructor / Run / Destructor
 	/*
 	USAGE: Constructor
