@@ -6,7 +6,9 @@ void Application::InitVariables(void)
 	vector3 v3Position(0.0f, 0.0f, 10.0f);
 	vector3 v3Target = ZERO_V3;
 	vector3 v3Upward = AXIS_Y;
+	m_sObject = "Walleye.obj";
 	m_pCameraMngr->SetPositionTargetAndUpward(v3Position, v3Target, v3Upward);
+	m_pModelMngr->LoadModel(m_sObject);
 }
 void Application::Update(void)
 {
@@ -21,6 +23,21 @@ void Application::Update(void)
 
 	//Update Entity Manager
 	m_pEntityMngr->Update();
+
+
+	static float fPos = 10.0;
+	vector3 v3Position(0.0f, 0.0f, 10.0f);
+	m_pCameraMngr->SetPosition(v3Position);
+	fPos += m_pSystem->GetDeltaTime(0);
+
+	vector3 v3Target(0.0f, 0.0f, fPos / 4.0f);
+
+	m_pCameraMngr->SetTarget(v3Target);
+
+	vector3 v3Updwards(0.0, 1.0f, 0.0f);
+	m_pCameraMngr->SetUpward(v3Updwards);
+
+	m_pModelMngr->AddModelToRenderList(m_sObject, ToMatrix4(m_qArcBall), BTX::eBTX_RENDER::RENDER_WIRE | BTX::eBTX_RENDER::RENDER_SOLID);
 
 	//Add objects to render list
 	m_pEntityMngr->AddEntityToRenderList(-1, true);

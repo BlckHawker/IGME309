@@ -50,6 +50,8 @@ void Application::Display(void)
 	// draw a skybox
 	m_pModelMngr->AddSkyboxToRenderList();
 
+	static int i = 0;
+	i++;
 	//calculate view and projection
 	switch (m_uProjection)
 	{
@@ -59,21 +61,29 @@ void Application::Display(void)
 		break;
 	case 2:
 		m_pCamera->ResetCamera();
+		//move camerea in z (forwards?) in order for blue to look bigger
 		break;
 	case 3:
-		m_pCamera->ResetCamera();
+		//focous camera on top of red shape
+		//rotate camera (on z) so that shapes are sideways (set up?) 
 		break;
 	case 4:
 		m_pCamera->ResetCamera();
+		//rotate camera 180 deg from Y axis
+		//posibly zoom in the camera on cone
 		break;
 	case 5:
 		m_pCamera->ResetCamera();
+		//Do camera 4 in addition of moving camera so that it's behind blue
 		break;
 	case 6:
 		m_pCamera->ResetCamera();
+		//Move camera one (z axis) so that red is behind it
 		break;
 	case 7:
 		m_pCamera->ResetCamera();
+		//turn the camera updside to
+		//m_pCamera->SetUp(AXIS_Z * -1); makes shapes disappear
 		break;
 	}
 
