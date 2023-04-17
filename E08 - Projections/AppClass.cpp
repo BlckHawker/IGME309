@@ -62,28 +62,37 @@ void Application::Display(void)
 	case 2:
 		m_pCamera->ResetCamera();
 		//move camerea in z (forwards?) in order for blue to look bigger
+		m_pCamera->SetPerspective(false);
 		break;
 	case 3:
 		//focous camera on top of red shape
 		//rotate camera (on z) so that shapes are sideways (set up?) 
+		m_pCamera->ResetCamera();
+		m_pCamera->SetPosition(AXIS_X * 30.0f);
+		m_pCamera->SetUp(AXIS_Z * -1.0f);
 		break;
 	case 4:
 		m_pCamera->ResetCamera();
 		//rotate camera 180 deg from Y axis
 		//posibly zoom in the camera on cone
+		m_pCamera->SetPosition(AXIS_Z * -15.0f);
 		break;
 	case 5:
 		m_pCamera->ResetCamera();
 		//Do camera 4 in addition of moving camera so that it's behind blue
+		m_pCamera->SetPosition(AXIS_Z * -15.0f);
+		m_pCamera->SetNearFar(vector2(5.0f, 1000.0f));
 		break;
 	case 6:
 		m_pCamera->ResetCamera();
 		//Move camera one (z axis) so that red is behind it
+		m_pCamera->SetPosition(AXIS_Z * -15.0f);
+		m_pCamera->SetNearFar(vector2(0.001f, 10.0f));
 		break;
 	case 7:
 		m_pCamera->ResetCamera();
 		//turn the camera updside to
-		//m_pCamera->SetUp(AXIS_Z * -1); makes shapes disappear
+		m_pCamera->SetUp(AXIS_Y * -1.0f);
 		break;
 	}
 
