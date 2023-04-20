@@ -6,7 +6,92 @@ uint MyRigidBody::SAT(MyRigidBody* const a_pOther)
 	//TODO: Calculate the SAT algorithm I STRONGLY suggest you use the
 	//Real Time Collision detection algorithm for OBB here but feel free to
 	//implement your own solution.
-	return BTXs::eSATResults::SAT_NONE;
+
+	// Local x-, y-, and z-axes
+	matrix3 localObj1 = this->GetModelMatrix();
+	matrix3 localObj2 = a_pOther->GetModelMatrix();
+
+	 // Positive halfwidth extents of OBB along each axis
+	 vector3 halfWidthObj1 = this->GetHalfWidth();
+	 vector3 halfWidthObj2 = a_pOther->GetHalfWidth();
+
+	 float ra, rb;
+	 matrix3 R, AbsR;
+
+	 // Compute rotation matrix expressing b in a’s coordinate frame
+	 for (int i = 0; i < 3; i++)
+		 for (int j = 0; j < 3; j++)
+			 R[i][j] = glm::dot(localObj1[i], localObj2[j]);
+
+
+	 // Compute translation vector t
+		 vector3 t = a_pOther->GetCenterGlobal() - this->GetCenterGlobal();
+
+	 // Bring translation into a’s coordinate frame
+	 t = vector3(glm::dot(t, localObj1[0]), glm::dot(t, localObj1[1]), glm::dot(t, localObj1[2]));
+
+	 // Compute common subexpressions. Add in an epsilon term to
+	// counteract arithmetic errors when two edges are parallel and
+	// their cross product is (near) null (see text for details)
+
+	 for (int i = 0; i < 3; i++)
+		 for (int j = 0; j < 3; j++)
+			 AbsR[i][j] = glm::abs(R[i][j]) + glm::epsilon<float>();
+	 // Test axes L = A0, L = A1, L = A2
+	 for (int i = 0; i < 3; i++) {
+		 ra = halfWidthObj1[i];
+		 rb = halfWidthObj2[0] * AbsR[i][0] + halfWidthObj2[1] * AbsR[i][1] + halfWidthObj2[2] * AbsR[i][2];
+		 if (glm::abs(t[i]) > ra + rb) return 0;
+	 }
+	 // Test axes L = B0, L = B1, L = B2
+	 for (int i = 0; i < 3; i++) {
+		 ra = halfWidthObj1[0] * AbsR[0][i] + halfWidthObj1[1] * AbsR[1][i] + halfWidthObj1[2] * AbsR[2][i];
+		 rb = halfWidthObj2[i];
+		 if (glm::abs(t[0] * R[0][i] + t[1] * R[1][i] + t[2] * R[2][i]) > ra + rb) return 0;
+	 }
+	 // Test axis L = A0 x B0
+	 ra = halfWidthObj1[1] * AbsR[2][0] + halfWidthObj1[2] * AbsR[1][0];
+	 rb = halfWidthObj2[1] * AbsR[0][2] + halfWidthObj2[2] * AbsR[0][1];
+	 if (glm::abs(t[2] * R[1][0] - t[1] * R[2][0]) > ra + rb) return 0;
+	 // Test axis L = A0 x B1
+	 ra = halfWidthObj1[1] * AbsR[2][1] + halfWidthObj1[2] * AbsR[1][1];
+	 rb = halfWidthObj2[0] * AbsR[0][2] + halfWidthObj2[2] * AbsR[0][0];
+	 if (glm::abs(t[2] * R[1][1] - t[1] * R[2][1]) > ra + rb) return 0;
+	 // Test axis L = A0 x B2
+	 ra = halfWidthObj1[1] * AbsR[2][2] + halfWidthObj1[2] * AbsR[1][2];
+	 rb = halfWidthObj2[0] * AbsR[0][1] + halfWidthObj2[1] * AbsR[0][0];
+	 if (glm::abs(t[2] * R[1][2] - t[1] * R[2][2]) > ra + rb) return 0;
+	 // Test axis L = A1 x B0
+	 ra = halfWidthObj1[0] * AbsR[2][0] + halfWidthObj1[2] * AbsR[0][0];
+	 rb = halfWidthObj2[1] * AbsR[1][2] + halfWidthObj2[2] * AbsR[1][1];
+
+	if (glm::abs(t[0] * R[2][0] - t[2] * R[0][0]) > ra + rb) return 0;
+
+	 // Test axis L = A1 x B1
+	 ra = halfWidthObj1[0] * AbsR[2][1] + halfWidthObj1[2] * AbsR[0][1];
+	 rb = halfWidthObj2[0] * AbsR[1][2] + halfWidthObj2[2] * AbsR[1][0];
+	 if (glm::abs(t[0] * R[2][1] - t[2] * R[0][1]) > ra + rb) return 0;
+	 // Test axis L = A1 x B2
+	 ra = halfWidthObj1[0] * AbsR[2][2] + halfWidthObj1[2] * AbsR[0][2];
+	 rb = halfWidthObj2[0] * AbsR[1][1] + halfWidthObj2[1] * AbsR[1][0];
+	 if (glm::abs(t[0] * R[2][2] - t[2] * R[0][2]) > ra + rb) return 0;
+	 // Test axis L = A2 x B0
+	 ra = halfWidthObj1[0] * AbsR[1][0] + halfWidthObj1[1] * AbsR[0][0];
+	 rb = halfWidthObj2[1] * AbsR[2][2] + halfWidthObj2[2] * AbsR[2][1];
+	 if (glm::abs(t[1] * R[0][0] - t[0] * R[1][0]) > ra + rb) return 0;
+	 // Test axis L = A2 x B1
+	 ra = halfWidthObj1[0] * AbsR[1][1] + halfWidthObj1[1] * AbsR[0][1];
+	 rb = halfWidthObj2[0] * AbsR[2][2] + halfWidthObj2[2] * AbsR[2][0];
+	 if (glm::abs(t[1] * R[0][1] - t[0] * R[1][1]) > ra + rb) return 0;
+	 // Test axis L = A2 x B2
+	 ra = halfWidthObj1[0] * AbsR[1][2] + halfWidthObj1[1] * AbsR[0][2];
+	 rb = halfWidthObj2[0] * AbsR[2][1] + halfWidthObj2[1] * AbsR[2][0];
+	 if (glm::abs(t[1] * R[0][2] - t[0] * R[1][2]) > ra + rb) return 0;
+
+
+
+		 // Since no separating axis is found, the OBBs must be intersecting
+	 return 1;
 }
 bool MyRigidBody::IsColliding(MyRigidBody* const a_pOther)
 {
@@ -21,7 +106,7 @@ bool MyRigidBody::IsColliding(MyRigidBody* const a_pOther)
 	{
 		uint nResult = SAT(a_pOther);
 
-		if (bColliding) //The SAT shown they are colliding
+		if (nResult == 1) //The SAT shown they are colliding
 		{
 			this->AddCollisionWith(a_pOther);
 			a_pOther->AddCollisionWith(this);
@@ -37,6 +122,7 @@ bool MyRigidBody::IsColliding(MyRigidBody* const a_pOther)
 		this->RemoveCollisionWith(a_pOther);
 		a_pOther->RemoveCollisionWith(this);
 	}
+
 	return bColliding;
 }
 void MyRigidBody::Init(void)
